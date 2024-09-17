@@ -10,7 +10,7 @@
 
 @interface BookData : NSObject
 
-// 类方法声明
+// Class method
 + (NSArray *)getBooks;
 
 @end
