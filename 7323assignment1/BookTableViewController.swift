@@ -8,6 +8,7 @@ class BookTableViewController: UITableViewController {
         super.viewDidLoad()
         // 从 Objective-C 文件获取书籍数据
         books = BookData.getBooks() as! [[String : String]]
+        
     }
 
     // MARK: - Table view data source

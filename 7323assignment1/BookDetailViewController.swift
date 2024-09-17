@@ -14,13 +14,25 @@ class BookDetailViewController: UIViewController {
     var bookDescription: String?
 
     override func viewDidLoad() {
-        super.viewDidLoad()
+            super.viewDidLoad()
 
-        // 设置传递来的书籍信息
-        titleLabel.text = bookTitle
-        authorLabel.text = bookAuthor
-        bookImageView.image = bookImage
-        descriptionLabel.text = bookDescription
+            // 显示书籍的详细信息
+            titleLabel.text = bookTitle
+            authorLabel.text = bookAuthor
+            bookImageView.image = bookImage
+            descriptionLabel.text = bookDescription
+
+            // 添加下拉手势
+            let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeDown(_:)))
+            swipeDownGesture.direction = .down
+            view.addGestureRecognizer(swipeDownGesture)
+        }
+
+        // 处理下拉手势
+    @objc func handleSwipeDown(_ gesture: UISwipeGestureRecognizer) {
+            if gesture.state == .ended {
+                self.dismiss(animated: true, completion: nil)
+            }
     }
 }
 
