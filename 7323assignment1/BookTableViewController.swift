@@ -9,6 +9,12 @@ class BookTableViewController: UITableViewController {
         
         // 从 Objective-C 文件获取书籍数据
         books = BookData.getBooks() as! [[String : String]]
+        // 监听暗夜模式变化通知
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDarkMode), name: NSNotification.Name("DarkModeChanged"), object: nil)
+        
+        // 初始时应用当前的界面风格
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+        overrideUserInterfaceStyle = isDarkMode ? .dark : .light
         
         // 创建并设置 Table Header View
         setupTableHeaderView()
@@ -50,6 +56,12 @@ class BookTableViewController: UITableViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let settingsVC = storyboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
         navigationController?.pushViewController(settingsVC, animated: true)
+    }
+    
+    @objc func updateDarkMode() {
+        // 当接收到暗夜模式变化通知时，更新界面风格
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+        overrideUserInterfaceStyle = isDarkMode ? .dark : .light
     }
 
     // MARK: - Table view data source
