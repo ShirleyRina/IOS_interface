@@ -6,9 +6,50 @@ class BookTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // 从 Objective-C 文件获取书籍数据
         books = BookData.getBooks() as! [[String : String]]
         
+        // 创建并设置 Table Header View
+        setupTableHeaderView()
+    }
+    
+    func setupTableHeaderView() {
+        // 创建一个 UIView 作为 Header View
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
+
+        // 创建应用名称的 UILabel
+        let titleLabel = UILabel(frame: CGRect(x: 16, y: 10, width: 200, height: 40))
+        titleLabel.text = "My Book App"
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        headerView.addSubview(titleLabel)
+
+        // 创建齿轮按钮
+        let settingsButton = UIButton(type: .system)
+        settingsButton.setImage(UIImage(systemName: "gearshape"), for: .normal)
+        settingsButton.translatesAutoresizingMaskIntoConstraints = false // 禁用 frame 布局，启用 Auto Layout
+        settingsButton.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
+        headerView.addSubview(settingsButton)
+
+        // 设置 Auto Layout 约束
+        NSLayoutConstraint.activate([
+            settingsButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -30), // 右侧距离 headerView 16 点
+            settingsButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor), // 垂直居中
+            settingsButton.widthAnchor.constraint(equalToConstant: 40), // 设置按钮宽度
+            settingsButton.heightAnchor.constraint(equalToConstant: 40) // 设置按钮高度
+        ])
+
+
+        // 设置为 Table Header View
+        tableView.tableHeaderView = headerView
+    }
+
+    // 点击齿轮图标时的操作
+    @objc func settingsButtonTapped() {
+        // 导航到新的空白视图
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let settingsVC = storyboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+        navigationController?.pushViewController(settingsVC, animated: true)
     }
 
     // MARK: - Table view data source
@@ -78,7 +119,7 @@ class BookTableViewController: UITableViewController {
                 detailVC.bookDescription = selectedBook["description"] // 书籍简介可以存储在数据源中
 
                 // 使用导航控制器跳转到书籍详细页面
-                navigationController?.pushViewController(detailVC, animated: true)
+                // navigationController?.pushViewController(detailVC, animated: true)
             }
         }
     
