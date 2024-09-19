@@ -18,6 +18,7 @@
 		8D8EB6002C98DC70002A3660 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 8D8EB5FF2C98DC70002A3660 /* Base */; };
 		8D8EB6082C98E200002A3660 /* BookTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8EB6072C98E200002A3660 /* BookTableViewController.swift */; };
 		8D8EB60B2C9913C4002A3660 /* BookData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8EB60A2C9913C4002A3660 /* BookData.m */; };
+		8D8EB6112C9C7D59002A3660 /* books.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D8EB6102C9C7D59002A3660 /* books.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		8D8EB60A2C9913C4002A3660 /* BookData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookData.m; sourceTree = "<group>"; };
 		8D8EB60D2C9914BA002A3660 /* BookData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BookData.h; sourceTree = "<group>"; };
 		8D8EB60F2C9918E9002A3660 /* 7323assignment1-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "7323assignment1-Bridging-Header.h"; sourceTree = "<group>"; };
+		8D8EB6102C9C7D59002A3660 /* books.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = books.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				8D8EB5F92C98DC6D002A3660 /* Main.storyboard */,
 				8D8EB60A2C9913C4002A3660 /* BookData.m */,
 				8D8EB60D2C9914BA002A3660 /* BookData.h */,
+				8D8EB6102C9C7D59002A3660 /* books.json */,
 				8D8EB5FC2C98DC70002A3660 /* Assets.xcassets */,
 				8D8EB5FE2C98DC70002A3660 /* LaunchScreen.storyboard */,
 				8D8EB6012C98DC70002A3660 /* Info.plist */,
@@ -145,6 +148,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D8EB6112C9C7D59002A3660 /* books.json in Resources */,
 				8D8EB5FD2C98DC70002A3660 /* Assets.xcassets in Resources */,
 				8D8EB6002C98DC70002A3660 /* Base in Resources */,
 				8D8EB5FB2C98DC6D002A3660 /* Base in Resources */,
