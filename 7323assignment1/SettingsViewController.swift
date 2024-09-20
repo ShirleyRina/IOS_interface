@@ -4,7 +4,6 @@
 //
 //  Created by Tong Li on 9/19/24.
 //
-
 import UIKit
 
 class SettingsViewController: UIViewController {
@@ -14,6 +13,9 @@ class SettingsViewController: UIViewController {
     // 创建 IBOutlet 以访问 Storyboard 中的 UIDatePicker 和 UILabel
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var birthdayLabel: UILabel!
+    
+    @IBOutlet weak var genderLabel: UILabel!
+    @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
     
     @IBAction func brightnessSliderChanged(_ sender: Any) {
         if let slider = sender as? UISlider {
@@ -71,7 +73,32 @@ class SettingsViewController: UIViewController {
 
         // 监听 DatePicker 的值变化事件
         datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
-           
+        
+        // 从 UserDefaults 中读取已保存的性别
+        if let savedGender = UserDefaults.standard.string(forKey: "userGender") {
+                selectedGender = savedGender
+
+            // 更新 Segmented Control 的选择
+            switch savedGender {
+            case "male":
+                genderSegmentedControl.selectedSegmentIndex = 0
+            case "female":
+                genderSegmentedControl.selectedSegmentIndex = 1
+            case "non-binary":
+                genderSegmentedControl.selectedSegmentIndex = 2
+            default:
+                genderSegmentedControl.selectedSegmentIndex = UISegmentedControl.noSegment
+            }
+        } else {
+            genderLabel.text = "My gender is __"
+        }
+        genderSegmentedControl.isHidden = true // 初始隐藏 Segmented Control
+
+        // 添加点击手势识别器
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
+        genderLabel.isUserInteractionEnabled = true
+        genderLabel.addGestureRecognizer(tapGesture)
+        updateGenderLabel()
     }
     
     // 定义 IBAction，当日期改变时调用
@@ -90,6 +117,59 @@ class SettingsViewController: UIViewController {
         UserDefaults.standard.set(sender.date, forKey: "userBirthday")
     }
     
+    // 当前性别，默认未选择
+    var selectedGender: String? {
+        didSet {
+            if let gender = selectedGender {
+                genderLabel.text = "My gender is \(gender)"
+                updateGenderLabel()
+                genderSegmentedControl.isHidden = true // 隐藏选择控件
+            }
+        }
+    }
+    
+    // 点击性别标签时显示 Segmented Control
+    @objc func labelTapped() {
+        genderSegmentedControl.isHidden = false
+    }
+    
+    // 当用户在 Segmented Control 中选择性别时更新 label
+    @IBAction func genderSelectionChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            selectedGender = "male"
+            UserDefaults.standard.set("male", forKey: "userGender")
+        case 1:
+            selectedGender = "female"
+            UserDefaults.standard.set("female", forKey: "userGender")
+        case 2:
+            selectedGender = "non-binary"
+            UserDefaults.standard.set("non-binary", forKey: "userGender")
+        default:
+            break
+        }
+        // 确保数据保存到 UserDefaults 中
+        UserDefaults.standard.synchronize()
+    }
 
+    
+    // 更新 UILabel 并为选中的性别或 "__" 设置背景色
+    func updateGenderLabel() {
+        let genderText = selectedGender ?? "__"
+        let fullText = "My gender is \(genderText)"
+
+        // 创建一个可变的富文本
+        let attributedString = NSMutableAttributedString(string: fullText)
+
+        // 找到需要高亮的部分 (即 "__" 或选中的性别)
+        let range = (fullText as NSString).range(of: genderText)
+
+        // 设置背景颜色为浅蓝色
+        attributedString.addAttribute(.backgroundColor, value: UIColor.systemBlue.withAlphaComponent(0.3), range: range)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.white, range: range)
+
+        // 设置富文本到 UILabel
+        genderLabel.attributedText = attributedString
+    }
 
 }
