@@ -24,10 +24,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
                 window?.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
                 
-                // 从 Storyboard 中加载初始视图控制器
+                // 从 Storyboard 中自动加载初始视图控制器
                 let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let navigationController = mainStoryboard.instantiateInitialViewController() as? UINavigationController
-                window?.rootViewController = navigationController // 设置导航控制器为根视图控制器
+                let initialViewController = mainStoryboard.instantiateInitialViewController()
+                window?.rootViewController = initialViewController // 设置 Storyboard 中的初始视图控制器为根视图控制器
                 
                 // 显示窗口
                 window?.makeKeyAndVisible()

@@ -10,6 +10,7 @@
 		45CA753B2C994DD300430718 /* ImageZoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA753A2C994DD300430718 /* ImageZoomViewController.swift */; };
 		45CA753D2C9953A400430718 /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA753C2C9953A400430718 /* BookDetailViewController.swift */; };
 		45CA753F2C9BFDE400430718 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45CA753E2C9BFDE400430718 /* SettingsViewController.swift */; };
+		8D2B65092C9CF4E10002A234 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2B65082C9CF4E10002A234 /* StartViewController.swift */; };
 		8D8EB5F42C98DC6D002A3660 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8EB5F32C98DC6D002A3660 /* AppDelegate.swift */; };
 		8D8EB5F62C98DC6D002A3660 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8EB5F52C98DC6D002A3660 /* SceneDelegate.swift */; };
 		8D8EB5F82C98DC6D002A3660 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8EB5F72C98DC6D002A3660 /* ViewController.swift */; };
@@ -25,6 +26,7 @@
 		45CA753A2C994DD300430718 /* ImageZoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageZoomViewController.swift; sourceTree = "<group>"; };
 		45CA753C2C9953A400430718 /* BookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
 		45CA753E2C9BFDE400430718 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		8D2B65082C9CF4E10002A234 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		8D8EB5F02C98DC6D002A3660 /* 7323assignment1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 7323assignment1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D8EB5F32C98DC6D002A3660 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D8EB5F52C98DC6D002A3660 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				45CA753E2C9BFDE400430718 /* SettingsViewController.swift */,
 				45CA753C2C9953A400430718 /* BookDetailViewController.swift */,
 				45CA753A2C994DD300430718 /* ImageZoomViewController.swift */,
+				8D2B65082C9CF4E10002A234 /* StartViewController.swift */,
 				8D8EB5F92C98DC6D002A3660 /* Main.storyboard */,
 				8D8EB60A2C9913C4002A3660 /* BookData.m */,
 				8D8EB60D2C9914BA002A3660 /* BookData.h */,
@@ -167,6 +170,7 @@
 				8D8EB6082C98E200002A3660 /* BookTableViewController.swift in Sources */,
 				45CA753B2C994DD300430718 /* ImageZoomViewController.swift in Sources */,
 				45CA753D2C9953A400430718 /* BookDetailViewController.swift in Sources */,
+				8D2B65092C9CF4E10002A234 /* StartViewController.swift in Sources */,
 				8D8EB60B2C9913C4002A3660 /* BookData.m in Sources */,
 				8D8EB5F62C98DC6D002A3660 /* SceneDelegate.swift in Sources */,
 				45CA753F2C9BFDE400430718 /* SettingsViewController.swift in Sources */,
