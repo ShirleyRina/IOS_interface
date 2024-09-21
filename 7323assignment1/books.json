@@ -14,10 +14,31 @@
         "rating": "5.0"
     },
     {
-        "title": "YYDS^^^",
+        "title": "YYDS",
         "author": "kunkun",
         "image": "book3.jpg",
         "description": "A classic novel about teenage rebellion.",
         "rating": "3.0"
-    }
+    },
+    {
+            "title": "1984",
+            "author": "George Orwell",
+            "image": "book4.jpg",
+            "description": "A dystopian novel about totalitarianism and surveillance.",
+            "rating": "4.7"
+    },
+    {
+            "title": "Pride and Prejudice",
+            "author": "Jane Austen",
+            "image": "book5.jpg",
+            "description": "A classic romance novel about the manners and marriage in early 19th century England.",
+            "rating": "4.6"
+    },
+    {
+            "title": "Brave New World",
+            "author": "Aldous Huxley",
+            "image": "book6.jpg",
+            "description": "A futuristic novel about a genetically engineered society and the consequences of technological control.",
+            "rating": "4.6"
+        },
 ]

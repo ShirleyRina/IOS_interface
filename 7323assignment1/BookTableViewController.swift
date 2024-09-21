@@ -74,7 +74,7 @@ class BookTableViewController: UITableViewController {
         return 3
     }
 
-    // 配置每个单元格的显示内容
+    // 配置每个单元格的显示内容，懒加载
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let book = books[indexPath.section]
         
@@ -88,13 +88,23 @@ class BookTableViewController: UITableViewController {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCell", for: indexPath)
-            // 设置图片
+            
+            // 异步加载图片
             if let imageName = book["image"] {
-                cell.imageView?.image = UIImage(named: imageName)
+                DispatchQueue.global().async {
+                    if let image = UIImage(named: imageName) {
+                        DispatchQueue.main.async {
+                            if let currentCell = tableView.cellForRow(at: indexPath) {
+                                currentCell.imageView?.image = image
+                                currentCell.setNeedsLayout()  // 强制布局更新
+                            }
+                        }
+                    }
+                }
             }
 
-            // 为图片添加点击手势
-            cell.imageView?.isUserInteractionEnabled = true // 启用用户交互
+            // 启用用户交互并添加手势识别器
+            cell.imageView?.isUserInteractionEnabled = true
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:)))
             cell.imageView?.addGestureRecognizer(tapGesture)
             cell.imageView?.tag = indexPath.section // 用 tag 来标记是哪本书的图片
@@ -102,6 +112,7 @@ class BookTableViewController: UITableViewController {
             return cell
         }
     }
+
 
     // 点击图片时的动作
     @objc func imageTapped(_ sender: UITapGestureRecognizer) {

@@ -33,7 +33,10 @@ class StartViewController: UIViewController {
     let images: [UIImage] = [
         UIImage(named: "book1")!,
         UIImage(named: "book2")!,
-        UIImage(named: "book3")!
+        UIImage(named: "book3")!,
+        UIImage(named: "book4")!,
+        UIImage(named: "book5")!,
+        UIImage(named: "book6")!
     ]
         
     override func viewDidLoad() {
