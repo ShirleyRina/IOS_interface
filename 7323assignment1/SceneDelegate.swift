@@ -20,16 +20,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = (scene as? UIWindowScene) {
                 self.window = UIWindow(windowScene: windowScene)
                 
-                // 从 UserDefaults 读取暗夜模式设置
+                // Load dark mode setting from UserDefaults
                 let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
                 window?.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
                 
-                // 从 Storyboard 中自动加载初始视图控制器
+                // Auto load original view controller from Storyboard
                 let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let initialViewController = mainStoryboard.instantiateInitialViewController()
-                window?.rootViewController = initialViewController // 设置 Storyboard 中的初始视图控制器为根视图控制器
+                window?.rootViewController = initialViewController // Set up original view controller to root view controller in Storyboard
                 
-                // 显示窗口
+                // Display window
                 window?.makeKeyAndVisible()
             }
     }

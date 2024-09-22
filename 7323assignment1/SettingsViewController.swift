@@ -10,7 +10,7 @@ class SettingsViewController: UIViewController {
 
     @IBOutlet weak var brightnessSlider: UISlider!
     
-    // 创建 IBOutlet 以访问 Storyboard 中的 UIDatePicker 和 UILabel
+    // Create IBOutlet to access the UIDatePicker and UILabel in the Storyboard
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var birthdayLabel: UILabel!
     
@@ -19,27 +19,25 @@ class SettingsViewController: UIViewController {
     
     @IBAction func brightnessSliderChanged(_ sender: Any) {
         if let slider = sender as? UISlider {
-                    let brightness = slider.value  // 获取Slider的值
-                    UIScreen.main.brightness = CGFloat(brightness)  // 设置屏幕亮度
+                    let brightness = slider.value  // Get the value of the Slider
+                    UIScreen.main.brightness = CGFloat(brightness)  // Set screen brightness
                 }
     }
-    
-    
     
     @IBOutlet weak var darkModelSwitch: UISwitch!
    
     @IBAction func darkModelSwitchToggled(_ sender: UISwitch) {
         if sender.isOn {
-                // 启用暗夜模式
+                // Enable dark mode
                 overrideUserInterfaceStyle = .dark
                 UserDefaults.standard.set(true, forKey: "isDarkMode")
             } else {
-                // 禁用暗夜模式
+                // Disable dark mode
                 overrideUserInterfaceStyle = .light
                 UserDefaults.standard.set(false, forKey: "isDarkMode")
             }
 
-            // 广播通知其他视图控制器更新界面风格
+            // Broadcast a notification to other view controllers to update the interface style
             NotificationCenter.default.post(name: NSNotification.Name("DarkModeChanged"), object: nil)
     }
     
@@ -47,38 +45,38 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         brightnessSlider.value = Float(UIScreen.main.brightness)
         // Do any additional setup after loading the view.
-        // 从 UserDefaults 中读取暗夜模式设置
+        // Retrieve dark mode setting from UserDefaults
         let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
         darkModelSwitch.isOn = isDarkMode
         overrideUserInterfaceStyle = isDarkMode ? .dark : .light
         
-        // 检查是否保存了用户的生日
+        // Check if the user's birthday is saved
         if let savedDate = UserDefaults.standard.object(forKey: "userBirthday") as? Date {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .medium
             dateFormatter.timeStyle = .none
 
-            // 更新 UIDatePicker 和 UILabel 显示已保存的生日
+            // Update the UIDatePicker and UILabel to display the saved birthday
             datePicker.date = savedDate
             birthdayLabel.text = "My Birthday: \(dateFormatter.string(from: savedDate))"
         } else {
             birthdayLabel.text = "My Birthday: Not set"
         }
         
-        // 设置初始生日显示
+        // Set initial birthday display
         // birthdayLabel.text = "My Birthday: Not set"
                 
-        // 设置 DatePicker 的默认值为当前日期
+        // Set DatePicker's default value to the current date
         datePicker.date = Date()
 
-        // 监听 DatePicker 的值变化事件
+        // Add listener for changes in DatePicker's value
         datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
         
-        // 从 UserDefaults 中读取已保存的性别
+        // Retrieve saved gender from UserDefaults
         if let savedGender = UserDefaults.standard.string(forKey: "userGender") {
                 selectedGender = savedGender
 
-            // 更新 Segmented Control 的选择
+            // Update the selection in Segmented Control
             switch savedGender {
             case "male":
                 genderSegmentedControl.selectedSegmentIndex = 0
@@ -92,48 +90,48 @@ class SettingsViewController: UIViewController {
         } else {
             genderLabel.text = "My gender is __"
         }
-        genderSegmentedControl.isHidden = true // 初始隐藏 Segmented Control
+        genderSegmentedControl.isHidden = true // Initially hide Segmented Control
 
-        // 添加点击手势识别器
+        // Add tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
         genderLabel.isUserInteractionEnabled = true
         genderLabel.addGestureRecognizer(tapGesture)
         updateGenderLabel()
     }
     
-    // 定义 IBAction，当日期改变时调用
+    // Define IBAction, called when the date changes
     @objc func dateChanged(_ sender: UIDatePicker) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .none
 
-        // 获取选中的日期并格式化为字符串
+        // Get the selected date and format it as a string
         let selectedDate = dateFormatter.string(from: sender.date)
             
-        // 更新 UILabel 显示生日
+        // Update UILabel to display the birthday
         birthdayLabel.text = "My Birthday: \(selectedDate)"
         
-        // 保存选中的日期到 UserDefaults
+        // Save the selected date to UserDefaults
         UserDefaults.standard.set(sender.date, forKey: "userBirthday")
     }
     
-    // 当前性别，默认未选择
+    // Current gender, default is none
     var selectedGender: String? {
         didSet {
             if let gender = selectedGender {
                 genderLabel.text = "My gender is \(gender)"
                 updateGenderLabel()
-                genderSegmentedControl.isHidden = true // 隐藏选择控件
+                genderSegmentedControl.isHidden = true // Hide the selection control
             }
         }
     }
     
-    // 点击性别标签时显示 Segmented Control
+    // Show Segmented Control when the gender label is tapped
     @objc func labelTapped() {
         genderSegmentedControl.isHidden = false
     }
     
-    // 当用户在 Segmented Control 中选择性别时更新 label
+    // Update the label when the user selects a gender in Segmented Control
     @IBAction func genderSelectionChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -148,28 +146,29 @@ class SettingsViewController: UIViewController {
         default:
             break
         }
-        // 确保数据保存到 UserDefaults 中
+        // Ensure the data is saved to UserDefaults
         UserDefaults.standard.synchronize()
     }
 
     
-    // 更新 UILabel 并为选中的性别或 "__" 设置背景色
+    // Update UILabel and set background color for the selected gender or "__"
     func updateGenderLabel() {
         let genderText = selectedGender ?? "__"
         let fullText = "My gender is \(genderText)"
 
-        // 创建一个可变的富文本
+        // Create a mutable attributed string
         let attributedString = NSMutableAttributedString(string: fullText)
 
-        // 找到需要高亮的部分 (即 "__" 或选中的性别)
+        // Find the part to highlight (i.e., "__" or the selected gender)
         let range = (fullText as NSString).range(of: genderText)
 
-        // 设置背景颜色为浅蓝色
+        // Set background color to light blue
         attributedString.addAttribute(.backgroundColor, value: UIColor.systemBlue.withAlphaComponent(0.3), range: range)
         attributedString.addAttribute(.foregroundColor, value: UIColor.white, range: range)
 
-        // 设置富文本到 UILabel
+        // Set the attributed string to the UILabel
         genderLabel.attributedText = attributedString
     }
 
 }
+

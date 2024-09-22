@@ -4,42 +4,43 @@ class ImageZoomViewController: UIViewController, UIScrollViewDelegate {
 
     var imageView: UIImageView!
     var scrollView: UIScrollView!
-    var image: UIImage? // 存储要放大的图片
+    var image: UIImage? // Stores the image to be zoomed in
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // 设置背景为半透明黑色
+        // Set the background to semi-transparent black
         view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
 
-        // 创建 UIScrollView 用于支持缩放
+        // Create a UIScrollView to support zooming
         scrollView = UIScrollView(frame: view.bounds)
         scrollView.delegate = self
-        scrollView.minimumZoomScale = 1.0  // 最小缩放比例
-        scrollView.maximumZoomScale = 3.0  // 最大缩放比例
+        scrollView.minimumZoomScale = 1.0  // Minimum zoom scale
+        scrollView.maximumZoomScale = 3.0  // Maximum zoom scale
         scrollView.contentSize = view.bounds.size
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         view.addSubview(scrollView)
 
-        // 创建 UIImageView 用来显示放大的图片
+        // Create a UIImageView to display the zoomed image
         imageView = UIImageView(frame: scrollView.bounds)
         imageView.contentMode = .scaleAspectFit
         imageView.image = image
         scrollView.addSubview(imageView)
 
-        // 添加点击手势，点击空白区域关闭视图
+        // Add tap gesture, tap on the blank area to close the view
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissZoomView))
         view.addGestureRecognizer(tapGesture)
     }
 
-    // 点击空白区域关闭放大视图
+    // Tap on the blank area to close the zoomed view
     @objc func dismissZoomView() {
         self.dismiss(animated: true, completion: nil)
     }
 
-    // UIScrollViewDelegate 方法，指定要缩放的视图
+    // UIScrollViewDelegate method, specify the view to zoom
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
 }
+

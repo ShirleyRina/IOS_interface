@@ -7,59 +7,59 @@ class BookTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 从 Objective-C 文件获取书籍数据
+        // Load book data from Objective-C file
         books = BookData.getBooks() as! [[String : String]]
-        // 监听暗夜模式变化通知
+        // Add Observer for Dark mode changing
         NotificationCenter.default.addObserver(self, selector: #selector(updateDarkMode), name: NSNotification.Name("DarkModeChanged"), object: nil)
         
-        // 初始时应用当前的界面风格
+        // Use current display style when initiate
         let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
         overrideUserInterfaceStyle = isDarkMode ? .dark : .light
         
-        // 创建并设置 Table Header View
+        // Create and set up Table Header View
         setupTableHeaderView()
     }
     
     func setupTableHeaderView() {
-        // 创建一个 UIView 作为 Header View
+        // Create UIView as Header View
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
 
-        // 创建应用名称的 UILabel
+        // Create UILabel
         let titleLabel = UILabel(frame: CGRect(x: 16, y: 10, width: 200, height: 40))
         titleLabel.text = "My Book App"
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         headerView.addSubview(titleLabel)
 
-        // 创建齿轮按钮
+        // Create setting button
         let settingsButton = UIButton(type: .system)
         settingsButton.setImage(UIImage(systemName: "gearshape"), for: .normal)
-        settingsButton.translatesAutoresizingMaskIntoConstraints = false // 禁用 frame 布局，启用 Auto Layout
+        settingsButton.translatesAutoresizingMaskIntoConstraints = false // Disable frame layout，enable Auto Layout
         settingsButton.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
         headerView.addSubview(settingsButton)
 
-        // 设置 Auto Layout 约束
+        // Set up Auto Layout constraints
         NSLayoutConstraint.activate([
-            settingsButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -30), // 右侧距离 headerView 16 点
-            settingsButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor), // 垂直居中
-            settingsButton.widthAnchor.constraint(equalToConstant: 40), // 设置按钮宽度
-            settingsButton.heightAnchor.constraint(equalToConstant: 40) // 设置按钮高度
+            settingsButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -30),
+            settingsButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            settingsButton.widthAnchor.constraint(equalToConstant: 40),
+            settingsButton.heightAnchor.constraint(equalToConstant: 40)
         ])
 
 
-        // 设置为 Table Header View
+        // Set it up for Table Header View
         tableView.tableHeaderView = headerView
     }
 
-    // 点击齿轮图标时的操作
+    // The operation when click the setting button
     @objc func settingsButtonTapped() {
-        // 导航到新的空白视图
+        // Navigate to a new view
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let settingsVC = storyboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
     @objc func updateDarkMode() {
-        // 当接收到暗夜模式变化通知时，更新界面风格
+        // Change view style when receive dark mode chenges
         let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
         overrideUserInterfaceStyle = isDarkMode ? .dark : .light
     }
@@ -74,7 +74,7 @@ class BookTableViewController: UITableViewController {
         return 3
     }
 
-    // 配置每个单元格的显示内容，懒加载
+    // Set up content for each cell, lazy initiation
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let book = books[indexPath.section]
         
@@ -89,35 +89,35 @@ class BookTableViewController: UITableViewController {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCell", for: indexPath)
             
-            // 异步加载图片
+            // Asynchronous loading pictures
             if let imageName = book["image"] {
                 DispatchQueue.global().async {
                     if let image = UIImage(named: imageName) {
                         DispatchQueue.main.async {
                             if let currentCell = tableView.cellForRow(at: indexPath) {
                                 currentCell.imageView?.image = image
-                                currentCell.setNeedsLayout()  // 强制布局更新
+                                currentCell.setNeedsLayout()  // Force layout update
                             }
                         }
                     }
                 }
             }
 
-            // 启用用户交互并添加手势识别器
+            // Enable user interact and add gesture recognition
             cell.imageView?.isUserInteractionEnabled = true
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:)))
             cell.imageView?.addGestureRecognizer(tapGesture)
-            cell.imageView?.tag = indexPath.section // 用 tag 来标记是哪本书的图片
+            cell.imageView?.tag = indexPath.section // Use tag to label which picture belongs to which book
 
             return cell
         }
     }
 
 
-    // 点击图片时的动作
+    // Action when click picture
     @objc func imageTapped(_ sender: UITapGestureRecognizer) {
         if let imageView = sender.view as? UIImageView, let image = imageView.image {
-            // 创建并展示放大图片的视图控制器
+            // Create Image Zoom View Controller
             let zoomVC = ImageZoomViewController()
             zoomVC.image = image
             zoomVC.modalPresentationStyle = .overFullScreen
@@ -125,41 +125,38 @@ class BookTableViewController: UITableViewController {
         }
     }
     
-    // 处理点击书名后的跳转
+    // Handle navigation after click book name
         override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             if indexPath.row == 0 {
-                // 获取选中的书籍信息
+                // Get book data when select a book
                 let selectedBook = books[indexPath.section]
 
-                // 从 storyboard 加载 BookDetailViewController
+                // From storyboard, load BookDetailViewController
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let detailVC = storyboard.instantiateViewController(withIdentifier: "BookDetailViewController") as! BookDetailViewController
 
-                // 传递书籍信息给 BookDetailViewController
+                // Pass book data to BookDetailViewController
                 detailVC.bookTitle = selectedBook["title"]
                 detailVC.bookAuthor = selectedBook["author"]
                 detailVC.bookImage = UIImage(named: selectedBook["image"]!)
-                detailVC.bookDescription = selectedBook["description"] // 书籍简介可以存储在数据源中
-
-                // 使用导航控制器跳转到书籍详细页面
-                // navigationController?.pushViewController(detailVC, animated: true)
+                detailVC.bookDescription = selectedBook["description"]
             }
         }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // 检查是否是我们创建的 segue
+        // Check if current segue is the one we created
         if segue.identifier == "showBookDetail" {
-            // 获取目标视图控制器
+            // Get target view controller
             if let detailVC = segue.destination as? BookDetailViewController {
-                // 确定选中的书籍（书名单元格被点击时）
+                // Confirm the selected book(when it's clicked)
                 if let indexPath = tableView.indexPathForSelectedRow {
                     let selectedBook = books[indexPath.section]
 
-                    // 传递书籍信息给 BookDetailViewController
+                    // Pass book data to BookDetailViewController
                     detailVC.bookTitle = selectedBook["title"]
                     detailVC.bookAuthor = selectedBook["author"]
                     detailVC.bookImage = UIImage(named: selectedBook["image"]!)
-                    detailVC.bookDescription = selectedBook["description"] // 简介需要存储在 books 数据中
+                    detailVC.bookDescription = selectedBook["description"] // description need to be stored in book data
                 }
             }
         }

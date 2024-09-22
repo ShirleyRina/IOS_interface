@@ -25,11 +25,11 @@ class StartViewController: UIViewController {
     @IBOutlet weak var countdownLabel: UILabel!
     
     
-    var countdownTimer: Timer? // 用于倒计时的定时器
-    var countdownValue: Int = 5  // 每次倒计时从 5 开始
-    var imageIndex = 0  // 当前展示图片的索引
+    var countdownTimer: Timer? // Timer for the countdown
+    var countdownValue: Int = 5  // Countdown starts from 5 each time
+    var imageIndex = 0  // Current image index to display
         
-    // 图片列表
+    // Image list
     let images: [UIImage] = [
         UIImage(named: "book1")!,
         UIImage(named: "book2")!,
@@ -41,45 +41,44 @@ class StartViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        // 初始化 Stepper 和 Label
-        fontSizeStepper.minimumValue = 10  // 最小字号
-        fontSizeStepper.maximumValue = 30  // 最大字号
-        fontSizeStepper.stepValue = 1      // 每次增加/减少的字号
-        fontSizeStepper.value = 20         // 初始字号
-        fontSizeLabel.font = UIFont.systemFont(ofSize: CGFloat(fontSizeStepper.value))  // 初始化 Label 字体大小
-        // 设置初始图片
+        // Initialize Stepper and Label
+        fontSizeStepper.minimumValue = 10  // Minimum font size
+        fontSizeStepper.maximumValue = 30  // Maximum font size
+        fontSizeStepper.stepValue = 1      // Step size for increasing/decreasing font
+        fontSizeStepper.value = 20         // Initial font size
+        fontSizeLabel.font = UIFont.systemFont(ofSize: CGFloat(fontSizeStepper.value))  // Initialize label font size
+        // Set initial image
         imageView.image = images[imageIndex]
         countdownLabel.text = "5"
         
-        // 初始化定时器，每隔5秒调用一次 changeImage 方法
+        // Initialize timer, call changeImage method every 5 seconds
         countdownTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCountdown), userInfo: nil, repeats: true)
 
-
     }
+    
     @objc func updateCountdown() {
             countdownValue -= 1
-            countdownLabel.text = "\(countdownValue)"  // 更新倒计时 Label
+            countdownLabel.text = "\(countdownValue)"  // Update countdown label
             
             if countdownValue == 0 {
-                // 倒计时结束时，切换图片
+                // When countdown ends, switch the image
                 changeImage()
-                // 重置倒计时
+                // Reset countdown
                 countdownValue = 5
             }
         }
+    
     @objc func changeImage() {
-        // 切换到下一个图片
+        // Switch to the next image
         imageIndex = (imageIndex + 1) % images.count
         imageView.image = images[imageIndex]
     }
     
-    // 在视图消失时停止定时器
+    // Stop the timer when the view disappears
     override func viewWillDisappear(_ animated: Bool) {
             super.viewWillDisappear(animated)
-            countdownTimer?.invalidate()  // 停止倒计时定时器
+            countdownTimer?.invalidate()  // Stop the countdown timer
         }
 
-
-
-
 }
+

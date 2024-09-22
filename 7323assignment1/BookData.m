@@ -9,13 +9,13 @@
 @implementation BookData : NSObject 
 
 + (NSArray *)getBooks {
-    // 获取JSON文件的路径
+    // Obtain path for JSON file
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"books" ofType:@"json"];
     
-    // 读取文件数据
+    // Load JSON data
     NSData *data = [NSData dataWithContentsOfFile:filePath];
     
-    // 解析JSON数据
+    // Parse JSON data
     NSError *error;
     NSArray *booksArray = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
     
